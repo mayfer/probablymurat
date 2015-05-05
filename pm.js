@@ -54,7 +54,7 @@ var PM = function(elem, audioSamples, options) {
                 x: iter_x,
                 y: iter_y,
             }
-            pm.disrupt(pos);
+            pm.disrupt(pos, iter);
         
             pm.render();
             if(pm.animating == true) {
@@ -82,27 +82,27 @@ var PM = function(elem, audioSamples, options) {
 
         canvasText = document.createElement("canvas");
         canvasText.width = ctx.width;
-        canvasText.height = 250;
+        canvasText.height = ctx.height;
 
         contextText = canvasText.getContext("2d");
-        contextText.font = "70px Helvetica";
+        contextText.font = "100px Helvetica";
         contextText.fillStyle = "rgb(255, 0, 0)";
         contextText.textAlign = "left";
 
-        var offset_x = 5;
-        contextText.fillText("probably", offset_x, 63);
-        contextText.fillText("murat", offset_x, 125);
-        contextText.fillText("inc.", offset_x, 190);
-        imageText = contextText.getImageData(0, 0, ctx.width, 250);
+        var offset_x = 2;
+        contextText.fillText("probably", offset_x, 80);
+        contextText.fillText("murat", offset_x, 170);
+        contextText.fillText("inc.", offset_x, 260);
+        imageText = contextText.getImageData(0, 0, ctx.width, ctx.height);
         dataText = imageText.data;
 
-        for(y = 0; y < 250; y+=3) {
-            for(x = 0; x < ctx.width; x+=3) {
+        for(y = 0; y < ctx.height; y+=4) {
+            for(x = 0; x < ctx.width; x+=4) {
                 if (dataText[(x + y * ctx.width) * 4] > 0) {
                     var circle = new pm.circle({
                         x: x,
                         y: y,
-                    }, 1);
+                    }, 1.4);
                     pm.circles.push(circle);
                 }
             }
@@ -123,13 +123,13 @@ var PM = function(elem, audioSamples, options) {
         return distance;
     }
 
-    pm.disrupt = function(pos) {
+    pm.disrupt = function(pos, iter) {
         for(var i=0; i<pm.circles.length; i++) {
             var circle = pm.circles[i];
             
             var distance = pm.distance(pos, circle.original_center);
-            var push_x = pm.gravity(Math.sin(distance));
-            var push_y = pm.gravity(Math.cos(distance));
+            var push_x = pm.gravity(Math.sin(distance)) * 3;
+            var push_y = pm.gravity(Math.cos(distance)) * 1.5;
 
             circle.center.y = circle.original_center.y + push_y;
             circle.center.x = circle.original_center.x + push_x;
