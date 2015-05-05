@@ -29,6 +29,17 @@ var PM = function(elem, audioSamples, options) {
     pm.reset = function() {
         ctx.clearRect(0, 0, ctx.width, ctx.height);
     };
+
+    pm.decimalToHex = function(d, padding) {
+        var hex = Number(d).toString(16);
+        padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
+
+        while (hex.length < padding) {
+            hex = "0" + hex;
+        }
+
+        return hex;
+    }
     
     pm.render = function() {
         pm.reset();
@@ -37,7 +48,14 @@ var PM = function(elem, audioSamples, options) {
         for(var i=0; i<pm.circles.length; i++) {
             var circle = pm.circles[i];
             ctx.beginPath();
-            ctx.arc(circle.center.x, circle.center.y, circle.radius, 0, 2 * Math.PI, false);
+            var phase_y = pm.distance({x: 0, y: circle.center.y}, {x: 0, y: circle.original_center.y});
+            var phase_x = pm.distance({y: 0, x: circle.center.x}, {y: 0, x: circle.original_center.x});
+            ctx.arc(circle.center.x, circle.center.y, (1 + phase_x*circle.radius/5), 0, 2 * Math.PI, false);
+            var fillStyle = "#" + pm.decimalToHex(100 + parseInt(phase_y*50)) + "";
+            //fillStyle += pm.decimalToHex(parseInt(pm.distance({y: 0, x: circle.center.x}, {y: 0, x: circle.original_center.x})*30));
+            //fillStyle += pm.decimalToHex(parseInt(pm.distance({y: 0, x: circle.center.x}, {y: 0, x: circle.original_center.x})*30));
+            fillStyle += "0000"
+            ctx.fillStyle = fillStyle;
             ctx.fill();
         }
     };
