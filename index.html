@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+    <head>
+        <title>cells</title>
+        <script src='jquery-1.11.1.min.js'></script>
+        <script src="canvas.js"></script>
+        <script src="pm.js"></script>
+        
+        <script>
+            $(document).ready(function(){
+
+                var pm = new PM($('#main').get(0));
+            });
+        </script>
+        <style>
+            * { margin: 0; padding: 0; }
+            html, body {
+                width: 100%;
+                background: #fff;
+            }
+
+            #wrapper {
+                width: 50%;
+                position: relative;
+                margin: 100px auto 0 auto;
+                padding: 10px;
+            }
+
+            #main {
+                height: 200px;
+            }
+            #main canvas {
+                margin: 0;
+                padding: 0;
+                display: block;
+            }
+
+            #text {
+                font-family: "VT323";
+                color: #aaa;
+                font-size: 20px;
+                text-align: right;
+                border-top: 5px solid #aaa;
+                padding: 10px 0;
+                margin: 10px 0;
+            }
+        </style>
+        <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="main">
+            </div>
+            <div id="text">
+                programmer<br />for hire
+            </div>
+        </div>
+    </body>
+</html>
